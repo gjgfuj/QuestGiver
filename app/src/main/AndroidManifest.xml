@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.awesomesauce.android.questgiver" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".android.MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".android.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".android.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".android.MainActivity" />
+        </activity>
+
+        <service
+            android:name=".android.QuestGiverService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+
+        <activity
+            android:name=".android.QuestDisplayActivity"
+            android:label="@string/title_activity_quest_display"
+            android:parentActivityName=".android.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.awesomesauce.android.questgiver.android.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
