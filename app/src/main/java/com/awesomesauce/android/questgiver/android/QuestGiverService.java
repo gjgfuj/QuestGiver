@@ -54,6 +54,7 @@ public class QuestGiverService extends Service {
         startService(intent);
     }
     public void loadQuests() {
+        /*
         try {
             if (!new File(getFilesDir(), "quests.json").exists()) {
                 InputStream inputStream = getResources().openRawResource(R.raw.quests);
@@ -64,7 +65,7 @@ public class QuestGiverService extends Service {
                 {
                     builder.append(line);
                 }
-                FileOutputStream outputStream = openFileOutput("quests.json", Context.MODE_PRIVATE);
+                FileOutputStream outputStream = new FileOutputStream(new File(getFilesDir(), "quests.json"));
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
                 writer.write(builder.toString());
                 writer.close();
@@ -77,8 +78,9 @@ public class QuestGiverService extends Service {
         {
 
         }
+        */
         try {
-            FileInputStream inputStream = openFileInput("quests.json");
+            FileInputStream inputStream = new FileInputStream(new File(getFilesDir(), "quests.json"));
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder builder = new StringBuilder();
             String line;
@@ -111,7 +113,6 @@ public class QuestGiverService extends Service {
     public void resetQuestsJson() {
         deleteFile("quests.json");
         downloadQuestsJson();
-        reset();
     }
     public void startTimer(final Quest quest) {
 

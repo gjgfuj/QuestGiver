@@ -15,8 +15,8 @@
       "description": "The second quest for loading from JSON",
       "maxTimeTaken": 50,
       "requirements": [2]},
-     {"displayName": "Test Website Quest 1",
-      "description": "This quest is dynamically loaded from the updater.",
+     {"displayName": "Test Website Quest 2",
+      "description": "The second website test quest.",
       "maxTimeTaken": 20,
       "requirements": []}
 ]
