@@ -50,7 +50,7 @@ public class QuestGiverService extends Service {
     public QuestManager manager = new QuestManager();
     public void downloadQuestsJson() {
         Intent intent = new Intent(this, DownloadService.class);
-        intent.putExtra("url", "https://raw.githubusercontent.com/gjgfuj/QuestGiver/master/app/src/main/res/raw/quests.json");
+        intent.putExtra("url", "https://raw.githubusercontent.com/gjgfuj/QuestGiverQuests/master/quests.json");
         startService(intent);
     }
     public void loadQuests() {
