@@ -91,25 +91,26 @@ public class QuestDisplayActivity extends ActionBarActivity {
         }
         LinearLayout layout = (LinearLayout) findViewById(R.id.questRequirements);
         int[] reqQuests = quest.getRequiredQuests();
-        layout.removeAllViewsInLayout();
-        for (int i=0;i<reqQuests.length;i++) {
-            final Quest reqQuest = manager.getQuest(reqQuests[i]);
-            Button button = new Button(this);
-            button.setText(reqQuest.getDisplayName());
-            if (reqQuest.isDone())
-            {
-                button.setEnabled(false);
-            }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(QuestDisplayActivity.this, QuestDisplayActivity.class);
-                    intent.putExtra("questId", manager.getQuestIndex(reqQuest));
-                    startActivity(intent);
+        if (reqQuests.length >= 1) {
+            layout.removeAllViewsInLayout();
+            for (int i = 0; i < reqQuests.length; i++) {
+                final Quest reqQuest = manager.getQuest(reqQuests[i]);
+                Button button = new Button(this);
+                button.setText(reqQuest.getDisplayName());
+                if (reqQuest.isDone()) {
+                    button.setEnabled(false);
                 }
-            });
-            layout.addView(button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(QuestDisplayActivity.this, QuestDisplayActivity.class);
+                        intent.putExtra("questId", manager.getQuestIndex(reqQuest));
+                        startActivity(intent);
+                    }
+                });
+                layout.addView(button);
 
+            }
         }
     }
     @Override

@@ -16,5 +16,6 @@
     <string name="start_quest">Start Quest</string>
     <string name="status_text">Status:</string>
     <string name="quest_requirements">Quest Requirements</string>
+    <string name="no_requirements">No Requirements</string>
 
 </resources>

@@ -14,13 +14,13 @@
         android:id="@+id/quest_title_view"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="null" />
+        android:text="title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="null description"
+        android:text="description"
         android:id="@+id/quest_description"
         android:layout_below="@+id/quest_title_view"
         android:layout_alignParentLeft="true"
@@ -43,9 +43,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/status_text"
         android:id="@+id/current_status_text"
-        android:layout_above="@+id/start_quest"
-        android:layout_toLeftOf="@+id/quest_title_view"
-        android:layout_toStartOf="@+id/quest_title_view" />
+        android:layout_alignBottom="@+id/current_status"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,9 +53,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="status"
         android:id="@+id/current_status"
-        android:layout_alignTop="@+id/current_status_text"
-        android:layout_toRightOf="@+id/quest_title_view"
-        android:layout_toEndOf="@+id/quest_title_view" />
+        android:layout_above="@+id/start_quest"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,11 +71,19 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/current_status_text"
-        android:layout_alignRight="@+id/start_quest"
-        android:layout_alignEnd="@+id/start_quest"
+        android:id="@+id/questRequirements"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/quest_requirements"
+        android:layout_alignEnd="@+id/quest_requirements"
         android:layout_below="@+id/quest_requirements"
-        android:id="@+id/questRequirements">
+        android:layout_above="@+id/current_status_text">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/no_requirements"
+            android:id="@+id/textView2" />
 
     </LinearLayout>
 

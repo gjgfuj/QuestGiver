@@ -157,6 +157,7 @@ public class QuestGiverService extends Service {
     @Override
     public void onCreate() {
         Log.i("Service", "Created service");
+        loadQuests();
         try {
             FileInputStream inputStream = openFileInput("questManager.json");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -164,10 +165,6 @@ public class QuestGiverService extends Service {
             if (json != null) {
                 Log.i("JSON", json);
                 manager.fromJSON(json);
-            }
-            else
-            {
-                loadQuests();
             }
             reader.close();
             inputStream.close();

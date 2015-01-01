@@ -20,8 +20,13 @@ public class QuestManager {
             JSONArray jsonQuestList = jsonObject.getJSONArray("questList");
             for (int i=0;i<jsonQuestList.length();i++)
             {
-                questList.get(i).fromJSON(jsonQuestList.getJSONObject(i).toString());
+                if (questList.size() > i)
+                    questList.get(i).fromJSON(jsonQuestList.getJSONObject(i).toString());
             }
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            e.printStackTrace();
         }
         catch (JSONException e)
         {
