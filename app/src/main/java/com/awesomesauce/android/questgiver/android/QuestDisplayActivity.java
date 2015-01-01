@@ -60,6 +60,22 @@ public class QuestDisplayActivity extends ActionBarActivity {
                 }
             }.start();
         }
+        for (int questId : quest.getRequiredQuests()) {
+            Quest quest = service.manager.getQuest(questId);
+            if (quest.isStarted() && !quest.isDone())
+            {
+                new CountDownTimer((quest.getTimeTaken()+1)*1000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        prepareQuestDetails();
+                    }
+
+                    public void onFinish() {
+                        prepareQuestDetails();
+                    }
+                }.start();
+            }
+        }
     }
     protected void prepareQuestDetails() {
         final QuestManager manager = service.manager;
@@ -70,6 +86,11 @@ public class QuestDisplayActivity extends ActionBarActivity {
 
         view = (TextView) findViewById(R.id.quest_description);
         view.setText(quest.getDescription());
+        LinearLayout additionalInfo = (LinearLayout) findViewById(R.id.additionalInfo);
+        additionalInfo.removeAllViewsInLayout();
+        view = new TextView(this);
+        view.setText("Total Time Taken: "+quest.getMaxTimeTaken());
+        additionalInfo.addView(view);
         if (manager.canStartQuest(quest))
         {
             findViewById(R.id.start_quest).setEnabled(true);
@@ -95,19 +116,7 @@ public class QuestDisplayActivity extends ActionBarActivity {
             layout.removeAllViewsInLayout();
             for (int i = 0; i < reqQuests.length; i++) {
                 final Quest reqQuest = manager.getQuest(reqQuests[i]);
-                Button button = new Button(this);
-                button.setText(reqQuest.getDisplayName());
-                if (reqQuest.isDone()) {
-                    button.setEnabled(false);
-                }
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(QuestDisplayActivity.this, QuestDisplayActivity.class);
-                        intent.putExtra("questId", manager.getQuestIndex(reqQuest));
-                        startActivity(intent);
-                    }
-                });
+                Button button = QuestUtils.makeQuestButton(this, manager, reqQuest);
                 layout.addView(button);
 
             }

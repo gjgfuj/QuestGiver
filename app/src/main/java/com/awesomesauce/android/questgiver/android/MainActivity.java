@@ -6,20 +6,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.awesomesauce.android.questgiver.R;
-import com.awesomesauce.android.questgiver.game.QuestManager;
+import com.awesomesauce.android.questgiver.game.Quest;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
@@ -40,6 +45,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 
         }
     };
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recreateView();
+        startTimers();
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -181,62 +192,112 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    public void startTimers() {
+        if (service != null) {
+            for (int i = 0; i < service.manager.getQuestAmount(); i++) {
+                Quest quest = service.manager.getQuest(i);
+                if (service.manager.isQuestVisible(quest)) {
+                    new CountDownTimer((quest.getTimeTaken() + 1) * 1000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            recreateView();
+                        }
+
+                        public void onFinish() {
+                            recreateView();
+                        }
+                    }.start();
+                }
+            }
+        }
+    }
     @Override
     public boolean onNavigationItemSelected(int position, long id) {
 
         // When the given dropdown item is selected, show its contents in the
         // container view.
+        Fragment fragment;
+        switch (position) {
+            case 1:
+                fragment = new AvailableQuestsFragment();
+                startTimers();
+                break;
+            default:
+                fragment = new OverviewFragment();
+                startTimers();
+                break;
+        }
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragment)
                 .commit();
         return true;
     }
-    public void viewTestQuest(View view) {
-        Intent intent = new Intent(this, QuestDisplayActivity.class);
-        intent.putExtra("questId", 0);
-        startActivity(intent);
-    }
-    public void viewTestQuest2(View view) {
-        Intent intent = new Intent(this, QuestDisplayActivity.class);
-        intent.putExtra("questId", 1);
-        startActivity(intent);
-    }
-    public void viewTestQuest3(View view) {
-        Intent intent = new Intent(this, QuestDisplayActivity.class);
-        intent.putExtra("questId", 2);
-        startActivity(intent);
+    public void recreateView() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.questsList);
+        if (layout != null) {
+            layout.removeAllViewsInLayout();
+            for (int i = 0; i < service.manager.getQuestAmount(); i++) {
+                Quest quest = service.manager.getQuest(i);
+                if (service.manager.isQuestVisible(quest))
+                    layout.addView(QuestUtils.makeQuestButton(MainActivity.this, service.manager, quest));
+            }
+        }
+        layout = (LinearLayout) findViewById(R.id.overviewInformation);
+        if (layout != null) {
+            layout.removeAllViewsInLayout();
+            TextView view = new TextView(this);
+            view.setText("Completed Quests: "+service.manager.getCompleteQuestCount());
+            view.setTextColor(Color.GREEN);
+            layout.addView(view);
+            view = new TextView(this);
+            view.setText("Possible Quests: "+service.manager.getTotalAccessibleQuestCount());
+            view.setTextColor(Color.MAGENTA);
+            layout.addView(view);
+            for (int i = 0; i < service.manager.getQuestAmount(); i++) {
+                Quest quest = service.manager.getQuest(i);
+                if (quest.isStarted() && !quest.isDone())
+                    layout.addView(QuestUtils.makeQuestButton(MainActivity.this, service.manager, quest));
+            }
+        }
     }
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class OverviewFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
 
-        public PlaceholderFragment() {
+        public OverviewFragment() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_overview, container, false);
             return rootView;
         }
     }
 
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class AvailableQuestsFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+        public AvailableQuestsFragment() {
+        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_available_quests, container, false);
+            return rootView;
+        }
+    }
 }

@@ -37,10 +37,7 @@ public class QuestManager {
         try {
             JSONObject object = new JSONObject();
             JSONArray jsonQuestList = new JSONArray();
-            ListIterator<Quest> iterator = questList.listIterator();
-            while (iterator.hasNext())
-            {
-                Quest quest = iterator.next();
+            for (Quest quest : questList) {
                 jsonQuestList.put(new JSONTokener(quest.toJSON()).nextValue());
             }
             object.put("questList", jsonQuestList);
@@ -109,5 +106,28 @@ public class QuestManager {
             return true;
         }
         return false;
+    }
+    public boolean isQuestVisible(Quest quest) {
+        return canStartQuest(quest) || quest.isStarted();
+    }
+    public int getCompleteQuestCount() {
+        int count = 0;
+        for (Quest quest : questList) {
+            if (quest.isDone())
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public int getTotalAccessibleQuestCount() {
+        int count = 0;
+        for (Quest quest : questList) {
+            if (isQuestVisible(quest))
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }

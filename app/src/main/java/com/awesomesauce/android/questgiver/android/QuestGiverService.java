@@ -115,11 +115,15 @@ public class QuestGiverService extends Service {
         downloadQuestsJson();
     }
     public void startTimer(final Quest quest) {
-
+        save();
         new CountDownTimer(quest.getTimeTaken()*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 quest.setTimeTaken(millisUntilFinished/1000);
+                if (quest.getTimeTaken() % 20 == 0)
+                {
+                    save();
+                }
             }
 
             public void onFinish() {
@@ -129,15 +133,15 @@ public class QuestGiverService extends Service {
                     if (android.os.Build.VERSION.SDK_INT >= 16) {
                         Notification.Builder note = new Notification.Builder(QuestGiverService.this)
                                 .setContentTitle(quest.getDisplayName())
-                                .setContentText("Quest Complete").setSmallIcon(R.drawable.ic_launcher)
-                                .setContentIntent(PendingIntent.getActivity(QuestGiverService.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                .setContentText("Quest Complete").setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
+                                .setContentIntent(PendingIntent.getActivity(QuestGiverService.this, manager.getQuestIndex(quest)+10, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
                         NotificationManager notificationManager =
                                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.notify(0, note.build());
                     }
-
                     manager.completeQuest(quest);
+                    save();
                 }
                 else
                 {
@@ -183,9 +187,7 @@ public class QuestGiverService extends Service {
             }
         }
     }
-    @Override
-    public void onDestroy() {
-        Log.i("Service", "Destroyed service");
+    public void save() {
         try {
             FileOutputStream outputStream = openFileOutput("questManager.json", Context.MODE_PRIVATE);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
@@ -199,6 +201,11 @@ public class QuestGiverService extends Service {
         {
             Log.e("JSON", e.toString());
         }
+    }
+    @Override
+    public void onDestroy() {
+        Log.i("Service", "Destroyed service");
+        save();
     }
     @Override
     public IBinder onBind(Intent intent) {

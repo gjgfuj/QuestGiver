@@ -17,5 +17,7 @@
     <string name="status_text">Status:</string>
     <string name="quest_requirements">Quest Requirements</string>
     <string name="no_requirements">No Requirements</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all_available_quests">All Available Quests</string>
 
 </resources>
