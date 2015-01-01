@@ -1,6 +1,7 @@
 package com.awesomesauce.android.questgiver.android;
 
 import android.app.AlarmManager;
+import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,8 +12,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Binder;
+import android.os.Build;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -44,6 +48,11 @@ import java.util.List;
 
 public class QuestGiverService extends Service {
     public QuestManager manager = new QuestManager();
+    public void downloadQuestsJson() {
+        Intent intent = new Intent(this, DownloadService.class);
+        intent.putExtra("url", "https://raw.githubusercontent.com/gjgfuj/QuestGiver/master/app/src/main/res/raw/quests.json");
+        startService(intent);
+    }
     public void loadQuests() {
         try {
             if (!new File(getFilesDir(), "quests.json").exists()) {
@@ -101,6 +110,7 @@ public class QuestGiverService extends Service {
     }
     public void resetQuestsJson() {
         deleteFile("quests.json");
+        downloadQuestsJson();
         reset();
     }
     public void startTimer(final Quest quest) {

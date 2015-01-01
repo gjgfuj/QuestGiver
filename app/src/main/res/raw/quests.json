@@ -10,9 +10,13 @@
      {"displayName": "Test JSON Quest 3",
       "description": "The third quest for loading from JSON",
       "maxTimeTaken": 200,
-      "requirements": []},
+      "requirements": [4]},
      {"displayName": "Test JSON Quest 4",
       "description": "The second quest for loading from JSON",
       "maxTimeTaken": 50,
       "requirements": [2]},
+     {"displayName": "Test Website Quest 1",
+      "description": "This quest is dynamically loaded from the updater.",
+      "maxTimeTaken": 20,
+      "requirements": []}
 ]

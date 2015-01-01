@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.awesomesauce.android.questgiver" >
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -28,7 +28,7 @@
         <service
             android:name=".android.QuestGiverService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
         </service>
 
         <activity
@@ -39,6 +39,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.awesomesauce.android.questgiver.android.MainActivity" />
         </activity>
+
+        <service
+            android:name=".android.DownloadService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
