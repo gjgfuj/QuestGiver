@@ -8,9 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class QuestManager {
     private List<Quest> questList = new ArrayList<Quest>();
@@ -50,7 +48,7 @@ public class QuestManager {
         return "";
     }
     public QuestManager() {
-        Quest testQuest = new BasicQuest();
+        Quest testQuest = new JSONQuest();
         questList.add(testQuest);
     }
     public void putQuest(int index, Quest quest) {
@@ -62,7 +60,7 @@ public class QuestManager {
     public void setQuestAmount(int amount) {
         for (int i=0;i<amount;i++)
         {
-            putQuest(i, new BasicQuest());
+            putQuest(i, new JSONQuest());
         }
     }
     public int addQuest(Quest quest)

@@ -1,30 +1,18 @@
 package com.awesomesauce.android.questgiver.android;
 
-import android.app.AlarmManager;
-import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.util.Log;
 
 import com.awesomesauce.android.questgiver.R;
-import com.awesomesauce.android.questgiver.game.AbstractQuest;
-import com.awesomesauce.android.questgiver.game.BasicQuest;
+import com.awesomesauce.android.questgiver.game.JSONQuest;
 import com.awesomesauce.android.questgiver.game.Quest;
 import com.awesomesauce.android.questgiver.game.QuestManager;
 
@@ -32,19 +20,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuestGiverService extends Service {
     public QuestManager manager = new QuestManager();
@@ -92,7 +75,7 @@ public class QuestGiverService extends Service {
             manager.setQuestAmount(array.length());
             for (int i=0;i<array.length();i++)
             {
-                manager.putQuest(i, new BasicQuest(array.getJSONObject(i).toString()));
+                manager.putQuest(i, new JSONQuest(array.getJSONObject(i).toString()));
             }
             inputStream.close();
         }

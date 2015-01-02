@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by gjgfuj on 12/31/14.
  */
-public class BasicQuest extends AbstractQuest {
+public class JSONQuest extends AbstractQuest {
     public static int[] convertIntegers(List<Integer> integers)
     {
         int[] ret = new int[integers.size()];
@@ -27,15 +27,15 @@ public class BasicQuest extends AbstractQuest {
     String displayName;
     String description;
     List<Integer> deps = new ArrayList<>();
-    public BasicQuest() {
+    public JSONQuest() {
         this(1, "Unknown Quest", "Unknown Quest");
     }
-    public BasicQuest(long mtt, String dn, String d) {
+    public JSONQuest(long mtt, String dn, String d) {
         maxTimeTaken = mtt;
         displayName = dn;
         description = d;
     }
-    public BasicQuest(String jsonQuestDetail) {
+    public JSONQuest(String jsonQuestDetail) {
         try {
             JSONObject object = (JSONObject) new JSONTokener(jsonQuestDetail).nextValue();
             maxTimeTaken = object.getLong("maxTimeTaken");
