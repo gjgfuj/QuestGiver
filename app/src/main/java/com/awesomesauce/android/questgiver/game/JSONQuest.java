@@ -29,6 +29,8 @@ public class JSONQuest extends AbstractQuest {
     boolean visibleOverride = true;
     boolean visible = true;
     List<Integer> deps = new ArrayList<>();
+    List<QuestAction> startActions = new ArrayList<>();
+    List<QuestAction> completeActions = new ArrayList<>();
     public JSONQuest() {
         this(1, "Unknown Quest", "Unknown Quest");
     }
@@ -50,6 +52,22 @@ public class JSONQuest extends AbstractQuest {
             }
             visibleOverride = object.optBoolean("visibleOverride", false);
             visible = object.optBoolean("visible", true);
+            JSONArray onStartArray = object.optJSONArray("onStart");
+            if (onStartArray != null)
+            {
+                for (int i=0;i<onStartArray.length();i++)
+                {
+                    startActions.add(new QuestAction(onStartArray.getJSONObject(i).toString()));
+                }
+            }
+            JSONArray onCompleteArray = object.optJSONArray("onComplete");
+            if (onCompleteArray != null)
+            {
+                for (int i=0;i<onCompleteArray.length();i++)
+                {
+                    completeActions.add(new QuestAction(onCompleteArray.getJSONObject(i).toString()));
+                }
+            }
         }
         catch (JSONException e)
         {
@@ -71,4 +89,20 @@ public class JSONQuest extends AbstractQuest {
     }
     public boolean isVisibleOverride() {return visibleOverride;}
     public boolean isVisible() {return visible;}
+    @Override
+    public void complete(QuestManager manager) {
+        super.complete(manager);
+        for (QuestAction action : completeActions)
+        {
+            action.executeAction(this, manager);
+        }
+    }
+    @Override
+    public void start(QuestManager manager) {
+        super.start(manager);
+        for (QuestAction action : startActions)
+        {
+            action.executeAction(this, manager);
+        }
+    }
 }
