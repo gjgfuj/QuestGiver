@@ -67,4 +67,6 @@ public interface Quest {
      * @param json the JSON string.
      */
     public void fromJSON(String json);
+    public boolean isVisibleOverride();
+    public boolean isVisible();
 }

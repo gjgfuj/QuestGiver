@@ -106,7 +106,7 @@ public class QuestManager {
         return false;
     }
     public boolean isQuestVisible(Quest quest) {
-        return canStartQuest(quest) || quest.isStarted();
+        return ((canStartQuest(quest) || quest.isStarted()) && quest.isVisible()) || quest.isVisibleOverride();
     }
     public int getCompleteQuestCount() {
         int count = 0;

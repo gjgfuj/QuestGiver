@@ -64,4 +64,6 @@ public abstract class AbstractQuest implements Quest {
             Log.e("JSON", "Loading Failed");
         }
     }
+    public boolean isVisible() {return true;}
+    public boolean isVisibleOverride() {return false;}
 }

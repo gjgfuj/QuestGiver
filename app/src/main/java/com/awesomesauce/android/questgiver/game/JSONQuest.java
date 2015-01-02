@@ -26,6 +26,8 @@ public class JSONQuest extends AbstractQuest {
     long maxTimeTaken;
     String displayName;
     String description;
+    boolean visibleOverride = true;
+    boolean visible = true;
     List<Integer> deps = new ArrayList<>();
     public JSONQuest() {
         this(1, "Unknown Quest", "Unknown Quest");
@@ -46,6 +48,8 @@ public class JSONQuest extends AbstractQuest {
             {
                 addDependency(array.getInt(i));
             }
+            visibleOverride = object.optBoolean("visibleOverride", false);
+            visible = object.optBoolean("visible", true);
         }
         catch (JSONException e)
         {
@@ -65,4 +69,6 @@ public class JSONQuest extends AbstractQuest {
     public String getDescription() {
         return description;
     }
+    public boolean isVisibleOverride() {return visibleOverride;}
+    public boolean isVisible() {return visible;}
 }
