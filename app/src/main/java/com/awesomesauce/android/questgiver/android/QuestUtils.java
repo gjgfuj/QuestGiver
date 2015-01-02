@@ -23,7 +23,7 @@ public class QuestUtils {
         else if (reqQuest.isStarted())
         {
             button.setTextColor(Color.MAGENTA);
-            button.setText(reqQuest.getDisplayName()+" ("+reqQuest.getTimeTaken()+"s)");
+            button.setText(reqQuest.getDisplayName()+" ("+reqQuest.getHumanReadableTimeTaken()+")");
         }
         else
         {

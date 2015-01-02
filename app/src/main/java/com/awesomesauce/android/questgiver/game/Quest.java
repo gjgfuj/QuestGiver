@@ -67,6 +67,8 @@ public interface Quest {
      * @param json the JSON string.
      */
     public void fromJSON(String json);
+    public String getHumanReadableTimeTaken();
+    public String getHumanReadableMaxTimeTaken();
     public boolean isVisibleOverride();
     public boolean isVisible();
 }

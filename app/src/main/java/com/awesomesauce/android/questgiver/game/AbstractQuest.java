@@ -66,4 +66,28 @@ public abstract class AbstractQuest implements Quest {
     }
     public boolean isVisible() {return true;}
     public boolean isVisibleOverride() {return false;}
+    public String getHumanReadableTimeTaken() {
+        StringBuilder builder = new StringBuilder();
+        if (timeTaken > 24*60*60)
+        {
+            builder.append((int) (timeTaken/(24*60*60))+"d, ");
+        }
+        if (timeTaken > 60*60)
+        {
+            builder.append(timeTaken/(60*60)%(24)+"h, ");
+        }
+        if (timeTaken > 60)
+        {
+            builder.append(timeTaken/60%(60)+"m, ");
+        }
+        builder.append(timeTaken%60+"s");
+        return builder.toString();
+    }
+    public String getHumanReadableMaxTimeTaken() {
+        long localTimeTaken = timeTaken;
+        timeTaken = getMaxTimeTaken();
+        String hr = getHumanReadableTimeTaken();
+        timeTaken = localTimeTaken;
+        return hr;
+    }
 }

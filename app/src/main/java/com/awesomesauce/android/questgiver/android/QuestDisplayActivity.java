@@ -89,7 +89,7 @@ public class QuestDisplayActivity extends ActionBarActivity {
         LinearLayout additionalInfo = (LinearLayout) findViewById(R.id.additionalInfo);
         additionalInfo.removeAllViewsInLayout();
         view = new TextView(this);
-        view.setText("Total Time Taken: "+quest.getMaxTimeTaken());
+        view.setText("Total Time Taken: "+quest.getHumanReadableMaxTimeTaken());
         additionalInfo.addView(view);
         if (manager.canStartQuest(quest))
         {
@@ -102,7 +102,7 @@ public class QuestDisplayActivity extends ActionBarActivity {
             view.setTextColor(Color.RED);
         }
         else if (!quest.isDone()) {
-            view.setText("In Progress, "+quest.getTimeTaken()+"s to go.");
+            view.setText("In Progress, "+quest.getHumanReadableTimeTaken()+" to go.");
             view.setTextColor(Color.MAGENTA);
         }
         else
